@@ -5,8 +5,8 @@
 //! The library provides functions to read the full configuration or fetch a value using a dot-separated key.
 
 use serde::Serialize;
+use serde_json::{Map, Value};
 use std::sync::OnceLock;
-use serde_json::{Value, Map};
 
 /// Global configuration store, as a JSON object wrapped in a Mutex for mutable access.
 static GLOBAL_CONFIG: OnceLock<std::sync::Mutex<Map<String, Value>>> = OnceLock::new();
