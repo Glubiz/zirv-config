@@ -1,5 +1,5 @@
 //! Module for managing configuration.
-//! 
+//!
 //! The global configuration is stored as a JSON object. Each subsystem (e.g. server, logging)
 //! can register its configuration under a specific namespace (e.g. "server", "logging").
 //! The library provides functions to read the full configuration or fetch a value using a dot-separated key.
@@ -18,7 +18,7 @@ pub fn init_config() {
 }
 
 /// Registers a configuration block under a given namespace.
-/// 
+///
 /// # Arguments
 ///
 /// * `namespace` - The key under which to register the configuration (for example, "server").
@@ -54,7 +54,7 @@ pub fn get_config() -> Value {
 }
 
 /// Retrieves a configuration value given a dot-separated key path (e.g., "server.port").
-/// 
+///
 /// If the key is not found, returns `None`.
 ///
 /// # Examples
@@ -99,11 +99,20 @@ mod tests {
         init_config();
 
         // Register two configuration blocks.
-        register_config("server", DummyConfig { port: 3000, host: "0.0.0.0".into() });
-        register_config("logging", json!({
-            "level": "info",
-            "file": "app.log"
-        }));
+        register_config(
+            "server",
+            DummyConfig {
+                port: 3000,
+                host: "0.0.0.0".into()
+            },
+        );
+
+        register_config("logging",
+            json!({
+                "level": "info",
+                "file": "app.log"
+            }),
+        );
 
         let config = get_config();
         if let Value::Object(map) = config {
@@ -120,7 +129,13 @@ mod tests {
         // (For testing, we can simulate a new initialization by using a new OnceLock instance.)
         // Note: In real usage, GLOBAL_CONFIG is static and persistent across calls.
         init_config();
-        register_config("server", DummyConfig { port: 3000, host: "0.0.0.0".into() });
+        register_config(
+            "server",
+            DummyConfig {
+                port: 3000,
+                host: "0.0.0.0".into()
+            },
+        );
 
         let port = get_config_by_key("server.port");
         assert_eq!(port, Some(json!(3000)));

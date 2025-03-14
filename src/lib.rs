@@ -64,8 +64,8 @@ macro_rules! register_config {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json::{json, Value};
     use serde::Serialize;
+    use serde_json::{json, Value};
 
     // A dummy configuration struct for testing.
     #[derive(Serialize)]
@@ -86,16 +86,22 @@ mod tests {
     fn test_register_and_read_full_config() {
         setup();
         // Register a dummy server configuration.
-        register_config!("server", DummyConfig { 
-            port: 3000, 
-            host: "0.0.0.0".to_string() 
-        });
+        register_config!(
+            "server",
+            DummyConfig {
+                port: 3000,
+                host: "0.0.0.0".into()
+            }
+        );
         
         // Retrieve the full configuration.
         let full = read_config!();
         // It should be a JSON object containing a key "server".
         if let Value::Object(map) = full {
-            assert!(map.contains_key("server"), "Expected key 'server' not found");
+            assert!(
+                map.contains_key("server"),
+                "Expected key 'server' not found"
+            );
             if let Some(Value::Object(server_obj)) = map.get("server") {
                 // Verify the values.
                 assert_eq!(server_obj.get("port").unwrap(), &json!(3000));
