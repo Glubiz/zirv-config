@@ -2,10 +2,10 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]  # Ensure this exactly matches your CI workflow name.
+    workflows: ["CI Pipeline"]
     types:
       - completed
-  workflow_dispatch: {}  # Enables a manual trigger button.
+  workflow_dispatch: {}
 
 jobs:
   publish:
