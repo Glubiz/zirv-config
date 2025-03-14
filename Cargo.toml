@@ -1,6 +1,6 @@
 [package]
 name = "zirv-config"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Jonathan Solskov <josj@zirv.io>"]
 description = "An expandable configuration library for Rust backends that aggregates configuration from multiple subsystems and provides a global accessor."
@@ -15,4 +15,3 @@ categories = ["config", "development-tools", "embedded"]
 [dependencies]
 serde = { version = "1.0.0", features = ["derive"] }
 serde_json = "1.0"
-once_cell = "1.21.1"
