@@ -103,11 +103,12 @@ mod tests {
             "server",
             DummyConfig {
                 port: 3000,
-                host: "0.0.0.0".into()
+                host: "0.0.0.0".into(),
             },
         );
 
-        register_config("logging",
+        register_config(
+            "logging",
             json!({
                 "level": "info",
                 "file": "app.log",
@@ -133,7 +134,7 @@ mod tests {
             "server",
             DummyConfig {
                 port: 3000,
-                host: "0.0.0.0".into()
+                host: "0.0.0.0".into(),
             },
         );
 

@@ -1,6 +1,6 @@
 [package]
 name = "zirv-config"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 authors = ["Jonathan Solskov <josj@zirv.io>"]
 description = "An expandable configuration library for Rust backends that aggregates configuration from multiple subsystems and provides a global accessor."
