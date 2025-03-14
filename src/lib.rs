@@ -8,14 +8,14 @@ pub mod config;
 
 #[macro_export]
 /// Retrieves the configuration from the global store.
-/// 
+///
 /// Usage:
-/// 
+///
 /// - `read_config!()` returns the entire configuration as a `serde_json::Value`.
 /// - `read_config!("some.key")` returns an `Option<serde_json::Value>` for the specified dot-separated key.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// # use zirv_config::read_config;
 /// // Get full config
@@ -65,7 +65,7 @@ macro_rules! register_config {
 mod tests {
     use super::*;
     use serde::Serialize;
-    use serde_json::{json, Value};
+    use serde_json::{Value, json};
 
     // A dummy configuration struct for testing.
     #[derive(Serialize)]
@@ -93,7 +93,7 @@ mod tests {
                 host: "0.0.0.0".into()
             }
         );
-        
+
         // Retrieve the full configuration.
         let full = read_config!();
         // It should be a JSON object containing a key "server".

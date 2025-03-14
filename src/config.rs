@@ -4,8 +4,8 @@
 //! can register its configuration under a specific namespace (e.g. "server", "logging").
 //! The library provides functions to read the full configuration or fetch a value using a dot-separated key.
 
-use std::sync::OnceLock;
 use serde::Serialize;
+use std::sync::OnceLock;
 use serde_json::{Value, Map};
 
 /// Global configuration store, as a JSON object wrapped in a Mutex for mutable access.
@@ -33,7 +33,7 @@ pub fn init_config() {
 ///     port: u16,
 ///     host: String,
 /// }
-/// 
+///
 /// let server_config = ServerConfig { port: 3000, host: "0.0.0.0".to_string() };
 /// register_config!("server", server_config);
 /// ```
@@ -110,7 +110,7 @@ mod tests {
         register_config("logging",
             json!({
                 "level": "info",
-                "file": "app.log"
+                "file": "app.log",
             }),
         );
 
