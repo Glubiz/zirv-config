@@ -141,6 +141,16 @@ mod tests {
     #[test]
     fn test_read_config_by_key() {
         setup();
+
+        // Register a dummy server configuration.
+        register_config!(
+            "server",
+            DummyConfig {
+                port: 3000,
+                host: "0.0.0.0".into()
+            }
+        );
+
         // Assume "server" was registered in a previous test.
         // Retrieve a specific key:
         let port = read_config!("server.port");
