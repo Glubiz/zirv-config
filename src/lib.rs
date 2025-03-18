@@ -153,4 +153,25 @@ mod tests {
         let missing = read_config!("server.nonexistent");
         assert!(missing.is_none());
     }
+
+    #[test]
+    fn test_read_config_with_type_success() {
+        setup();
+
+        register_config!(
+            "server",
+            DummyConfig {
+                port: 3000,
+                host: "127.0.0.1".into()
+            }
+        );
+
+        // Try to retrieve "server.port" as a u16.
+        let port: Option<u16> = read_config!("server.port", u16);
+        assert_eq!(port, Some(3000));
+
+        // Retrieve "server.host" as a String.
+        let host: Option<String> = read_config!("server.host", String);
+        assert_eq!(host, Some("127.0.0.1".to_string()));
+    }
 }
