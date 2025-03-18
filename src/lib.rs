@@ -7,23 +7,29 @@
 pub mod config;
 
 #[macro_export]
-/// Retrieves the configuration from the global store.
-///
+/// Retrieves the configuration from the global store with optional type conversion.
+/// 
 /// Usage:
-///
+/// 
 /// - `read_config!()` returns the entire configuration as a `serde_json::Value`.
 /// - `read_config!("some.key")` returns an `Option<serde_json::Value>` for the specified dot-separated key.
-///
+/// - `read_config!("some.key", Type)` attempts to convert the value to `Type`, returning an `Option<Type>`.
+/// 
 /// # Examples
-///
+/// 
 /// ```rust
 /// # use zirv_config::read_config;
-/// // Get full config
+/// // Get full config:
 /// let full_config = read_config!();
 /// println!("Config: {:?}", full_config);
-///
-/// // Get a specific key, e.g., "server.port"
-/// if let Some(port) = read_config!("server.port") {
+/// 
+/// // Get a specific key as a JSON value:
+/// if let Some(val) = read_config!("server.port") {
+///     println!("Server port (JSON): {}", val);
+/// }
+/// 
+/// // Get a specific key and convert it to a u16:
+/// if let Some(port) = read_config!("server.port", u16) {
 ///     println!("Server port: {}", port);
 /// }
 /// ```
@@ -34,6 +40,24 @@ macro_rules! read_config {
     ($key:expr) => {
         $crate::config::get_config_by_key($key)
     };
+    ($key:expr, $t:ty) => {{
+        let value_opt = $crate::config::get_config_by_key($key);
+        match value_opt {
+            Some(v) => match serde_json::from_value::<$t>(v) {
+                Ok(val) => Some(val),
+                Err(err) => {
+                    eprintln!(
+                        "Failed to parse config key {} into type {}: {:?}",
+                        $key,
+                        stringify!($t),
+                        err
+                    );
+                    None
+                }
+            },
+            None => None,
+        }
+    }};
 }
 
 #[macro_export]
