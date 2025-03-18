@@ -44,6 +44,31 @@ pub fn register_config<T: Serialize>(namespace: &str, config: T) {
     guard.insert(namespace.to_string(), value);
 }
 
+/// Retrieves the entire global configuration as a [`serde_json::Value`].
+///
+/// This function returns the current state of the global configuration stored as a JSON object.
+/// If the global configuration store has been initialized, it returns a clone of the stored data.
+/// If it has not been initialized, an empty JSON object is returned.
+///
+/// # Panics
+///
+/// This function will panic if the internal mutex guarding the global configuration gets poisoned.
+///
+/// # Examples
+///
+/// ```rust
+/// use zirv_config::config::{init_config, get_config};
+/// use serde_json::json;
+///
+/// // Initialize the configuration store
+/// init_config();
+///
+/// // Retrieve the global configuration (initially empty)
+/// let config = get_config();
+/// assert_eq!(config, json!({}));
+/// ```
+///
+/// For more details about configuration management, see the module documentation.
 pub fn get_config() -> Value {
     if let Some(global) = GLOBAL_CONFIG.get() {
         let guard = global.lock().expect("Mutex poisoned");
